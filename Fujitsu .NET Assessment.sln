@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PricingService", "PricingService\PricingService.csproj", "{1E38F2D5-7150-4B23-BF1A-F933985A31FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weather", "Weather\Weather.csproj", "{046C0BDC-D1B6-75C2-4BB8-6948DA22FF31}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1E38F2D5-7150-4B23-BF1A-F933985A31FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E38F2D5-7150-4B23-BF1A-F933985A31FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E38F2D5-7150-4B23-BF1A-F933985A31FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E38F2D5-7150-4B23-BF1A-F933985A31FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{046C0BDC-D1B6-75C2-4BB8-6948DA22FF31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{046C0BDC-D1B6-75C2-4BB8-6948DA22FF31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{046C0BDC-D1B6-75C2-4BB8-6948DA22FF31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{046C0BDC-D1B6-75C2-4BB8-6948DA22FF31}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {47962C5A-E9CA-41A9-BF68-CDF1300B9017}
+	EndGlobalSection
+EndGlobal
