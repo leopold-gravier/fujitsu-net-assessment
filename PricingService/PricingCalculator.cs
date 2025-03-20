@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using Weather;
 
 
@@ -6,11 +7,11 @@ namespace PricingService
 {
     public static class PricingCalculator
     {
-        static readonly string[] availableCities = new string[]
+        static readonly Dictionary<string, string> weatherStations = new Dictionary<string, string>()
         {
-            "Tallinn-Harku",
-            "Tartu-Tõravere",
-            "Pärnu"
+            { "Tallinn", "Tallinn-Harku" },
+            { "Tartu", "Tartu-Tõravere" },
+            { "Parnu", "Pärnu" }
         };
 
         static readonly Dictionary<string, Dictionary<VehicleType, float>> regionalBaseFeeDb = new Dictionary<string, Dictionary<VehicleType, float>>()
@@ -34,7 +35,7 @@ namespace PricingService
                 }
             },
             {
-                "Pärnu",
+                "Parnu",
                 new Dictionary<VehicleType, float>()
                 {
                     { VehicleType.Car, 3.0f },
@@ -46,13 +47,15 @@ namespace PricingService
         
         public static float GetDeliveryPrice(string city, VehicleType vehicle)
         {
-            if (!availableCities.Contains(city))
+            if (!weatherStations.ContainsKey(city))
             {
                 throw new InvalidDeliveryException($"Cannot deliver to the city of {city}");
             }
 
+            string weatherStationName = weatherStations[city];
+
             using WeatherDbContext db = new WeatherDbContext();
-            Record? weatherRecord = (from r in db.Records where r.Station.Name == city orderby r.Timestamp descending select r).Include(r => r.Station).Include(r => r.Phenomenon).FirstOrDefault();
+            Record? weatherRecord = (from r in db.Records where r.Station.Name == weatherStationName orderby r.Timestamp descending select r).Include(r => r.Station).Include(r => r.Phenomenon).FirstOrDefault();
             if (weatherRecord is null)
             {
                 throw new Exception($"No weather data available in {city}");
