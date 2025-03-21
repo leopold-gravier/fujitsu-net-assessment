@@ -10,23 +10,16 @@ namespace Weather
         public DbSet<Phenomenon> Phenomena { get; set; }
         public DbSet<Record> Records { get; set; }
 
-        public WeatherDbContext()
+        public WeatherDbContext(DbContextOptions options): base(options)
         {
             Database.EnsureCreated();
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            // optionsBuilder.UseInMemoryDatabase("weather");
-            optionsBuilder.UseSqlite("Data Source=weather.sqlite");
-        }
 
-
-        public static void PopulatePhenomena()
+        public void PopulatePhenomena()
         {
             Console.WriteLine("Populating the phenomena database");
-            using WeatherDbContext db = new WeatherDbContext();
-            HashSet<string> currentPhenomenonNames = (from phenomenon in db.Phenomena select phenomenon.Name).ToHashSet();
+            HashSet<string> currentPhenomenonNames = (from phenomenon in Phenomena select phenomenon.Name).ToHashSet();
 
             List<Phenomenon> missingPhenomena = new List<Phenomenon>();
             foreach (string phenomenonName in Phenomenon.names)
@@ -37,8 +30,8 @@ namespace Weather
                 }
             }
 
-            db.AddRange(missingPhenomena);
-            db.SaveChanges();
+            AddRange(missingPhenomena);
+            SaveChanges();
         }
     }
 

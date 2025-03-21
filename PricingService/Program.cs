@@ -1,4 +1,7 @@
 
+using Microsoft.EntityFrameworkCore;
+using Weather;
+
 namespace PricingService
 {
     public class Program
@@ -12,8 +15,14 @@ namespace PricingService
 
         public static void Main(string[] args)
         {
-            Weather.WeatherDbContext.PopulatePhenomena();
-            Weather.Importer weatherImporter = new Weather.Importer(selectedStations);
+            DbContextOptionsBuilder<WeatherDbContext> optionsBuilder = new DbContextOptionsBuilder<WeatherDbContext>();
+            optionsBuilder.UseSqlite("Data Source=weather.sqlite");
+            DbContextOptions<WeatherDbContext> dbOptions = optionsBuilder.Options;
+
+            using WeatherDbContext dbContext = new WeatherDbContext(dbOptions);
+            dbContext.PopulatePhenomena();
+            
+            Importer weatherImporter = new Importer(dbContext, selectedStations);
 
             // Make sure records are imported before starting the web-service
             weatherImporter.ImportWeatherData().Wait();
@@ -26,7 +35,10 @@ namespace PricingService
             // Add services to the container.
 
             builder.Services.AddControllers();
-            builder.Services.AddDbContext<Weather.WeatherDbContext>();
+            builder.Services.AddDbContext<WeatherDbContext>((serviceProvider, options) =>
+            {
+                options.UseSqlite("Data Source=weather.sqlite");
+            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

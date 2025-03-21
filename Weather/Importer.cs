@@ -8,11 +8,12 @@ namespace Weather
     public class Importer
     {
         protected string[] selectedStations;
+        protected WeatherDbContext _dbContext;
 
-
-        public Importer(string[] selectedStations)
+        public Importer(WeatherDbContext dbContext, string[] selectedStations)
         {
             this.selectedStations = selectedStations;
+            _dbContext = dbContext;
         }
 
 
@@ -103,15 +104,13 @@ namespace Weather
         {
             Console.WriteLine($"Adding {records.Count()} weather records");
 
-            using WeatherDbContext db = new WeatherDbContext();
-
             foreach (Record record in records)
             {
-                Station? station = (from s in db.Stations where s.Name == record.Station.Name select s).FirstOrDefault();
+                Station? station = (from s in _dbContext.Stations where s.Name == record.Station.Name select s).FirstOrDefault();
                 if (station is null)
                 {
                     Console.WriteLine($"Adding database entry for weather station {record.Station.Name}");
-                    db.Stations.Add(record.Station);
+                    _dbContext.Stations.Add(record.Station);
                 }
                 else
                 {
@@ -125,7 +124,7 @@ namespace Weather
 
                 if (record.Phenomenon is not null)
                 {
-                    Phenomenon? phenomenon = (from p in db.Phenomena where p.Name == record.Phenomenon.Name select p).FirstOrDefault();
+                    Phenomenon? phenomenon = (from p in _dbContext.Phenomena where p.Name == record.Phenomenon.Name select p).FirstOrDefault();
                     if (phenomenon is null)
                     {
                         throw new Exception($"Unknown weather phenomenon '{record.Phenomenon.Name}'");
@@ -137,9 +136,9 @@ namespace Weather
                 }
             }
 
-            db.Records.AddRange(records);
+            _dbContext.Records.AddRange(records);
 
-            db.SaveChanges();
+            _dbContext.SaveChanges();
         }
 
     }
