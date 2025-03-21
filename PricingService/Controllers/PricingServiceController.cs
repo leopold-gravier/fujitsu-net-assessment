@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Weather;
 
 namespace PricingService.Controllers;
 
@@ -6,11 +7,11 @@ namespace PricingService.Controllers;
 [Route("/api/delivery/pricing")]
 public class PricingServiceController : ControllerBase
 {
-    private readonly ILogger<PricingServiceController> _logger;
+    protected WeatherDbContext _dbContext;
 
-    public PricingServiceController(ILogger<PricingServiceController> logger)
+    public PricingServiceController(WeatherDbContext dbContext)
     {
-        _logger = logger;
+        _dbContext = dbContext;
     }
 
     [HttpGet]
@@ -20,7 +21,7 @@ public class PricingServiceController : ControllerBase
     {
         try
         {
-            float price = PricingCalculator.GetDeliveryPrice(city, vehicle);
+            float price = PricingCalculator.GetDeliveryPrice(city, vehicle, _dbContext);
             return price;
         } catch (InvalidDeliveryException e)
         {

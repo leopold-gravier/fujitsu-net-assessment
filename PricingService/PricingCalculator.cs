@@ -45,7 +45,7 @@ namespace PricingService
             }
         };
         
-        public static float GetDeliveryPrice(string city, VehicleType vehicle)
+        public static float GetDeliveryPrice(string city, VehicleType vehicle, WeatherDbContext dbContext)
         {
             if (!weatherStations.ContainsKey(city))
             {
@@ -54,11 +54,10 @@ namespace PricingService
 
             string weatherStationName = weatherStations[city];
 
-            using WeatherDbContext db = new WeatherDbContext();
-            Record? weatherRecord = (from r in db.Records where r.Station.Name == weatherStationName orderby r.Timestamp descending select r).Include(r => r.Station).Include(r => r.Phenomenon).FirstOrDefault();
+            Record? weatherRecord = (from r in dbContext.Records where r.Station.Name == weatherStationName orderby r.Timestamp descending select r).Include(r => r.Station).Include(r => r.Phenomenon).FirstOrDefault();
             if (weatherRecord is null)
             {
-                throw new Exception($"No weather data available in {city}");
+                throw new Exception($"No weather data available in {weatherStationName}");
             }
 
             float price = 0.0f;
