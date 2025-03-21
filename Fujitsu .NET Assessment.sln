@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PricingService", "PricingSe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weather", "Weather\Weather.csproj", "{046C0BDC-D1B6-75C2-4BB8-6948DA22FF31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PricingService.Tests", "PricingService.Tests\PricingService.Tests.csproj", "{4A02A206-BBD2-4CB7-83B6-262DB74A3AA3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{046C0BDC-D1B6-75C2-4BB8-6948DA22FF31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{046C0BDC-D1B6-75C2-4BB8-6948DA22FF31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{046C0BDC-D1B6-75C2-4BB8-6948DA22FF31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A02A206-BBD2-4CB7-83B6-262DB74A3AA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A02A206-BBD2-4CB7-83B6-262DB74A3AA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A02A206-BBD2-4CB7-83B6-262DB74A3AA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A02A206-BBD2-4CB7-83B6-262DB74A3AA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
