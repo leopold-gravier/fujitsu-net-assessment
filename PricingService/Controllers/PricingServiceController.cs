@@ -14,6 +14,12 @@ public class PricingServiceController : ControllerBase
         _dbContext = dbContext;
     }
 
+    /// <summary>
+    /// Returns the price in euro of a delivery.
+    /// </summary>
+    /// <param name="city">The city to deliver to.</param>
+    /// <param name="vehicle">The vehicle to use for the delivery. </param>
+    /// <returns></returns>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

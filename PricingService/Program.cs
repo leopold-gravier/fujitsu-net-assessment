@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Weather;
 
 namespace PricingService
@@ -41,7 +42,13 @@ namespace PricingService
             });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Delivery pricing API", Version = "v1" });
+
+                // Custom Enum mapping to display the name and code of each value.
+                c.SchemaFilter<EnumSchemaFilter>();
+            });
 
             WebApplication app = builder.Build();
 
