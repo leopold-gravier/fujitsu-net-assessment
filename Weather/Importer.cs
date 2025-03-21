@@ -106,37 +106,8 @@ namespace Weather
 
             foreach (Record record in records)
             {
-                Station? station = (from s in _dbContext.Stations where s.Name == record.Station.Name select s).FirstOrDefault();
-                if (station is null)
-                {
-                    Console.WriteLine($"Adding database entry for weather station {record.Station.Name}");
-                    _dbContext.Stations.Add(record.Station);
-                }
-                else
-                {
-                    if (record.Station.WmoCode != station.WmoCode)
-                    {
-                        throw new Exception($"WMO code of station {record.Station.Name} ({record.Station.WmoCode}) does not match the known code {station.WmoCode}");
-                    }
-
-                    record.Station = station;
-                }
-
-                if (record.Phenomenon is not null)
-                {
-                    Phenomenon? phenomenon = (from p in _dbContext.Phenomena where p.Name == record.Phenomenon.Name select p).FirstOrDefault();
-                    if (phenomenon is null)
-                    {
-                        throw new Exception($"Unknown weather phenomenon '{record.Phenomenon.Name}'");
-                    }
-                    else
-                    {
-                        record.Phenomenon = phenomenon;
-                    }
-                }
+                _dbContext.ImportRecord(record);
             }
-
-            _dbContext.Records.AddRange(records);
 
             _dbContext.SaveChanges();
         }
